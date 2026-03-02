@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	url := "http://localhost:8080/users/1"
+	url := "http://localhost:8080/api/v1/users/1"
 	total := 100
 	concurrency := 10
 
