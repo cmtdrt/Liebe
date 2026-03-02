@@ -27,7 +27,10 @@ Configuration lives in `liebe-config.json` at the project root:
 - **health_check.path**: endpoint called on each upstream (e.g. `/health`).
 - **health_check.interval**: every X seconds, Liebe checks all upstreams.
 - **health_check.timeout**: maximum time allowed for a response to be considered valid.
-- **strategy**: load‑balancing strategy (`"round_robin"` or `"random"`).
+- **strategy**: load‑balancing strategy (currently available):
+  - `"round_robin"`: cycles through healthy upstreams in order, one request at a time.
+  - `"random"`: picks a healthy upstream at random for each request.
+  - _more strategies to come…_
 - **upstreams**: list of API instances that will receive traffic.
 
 ### How it works
