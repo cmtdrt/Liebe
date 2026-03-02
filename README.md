@@ -35,3 +35,8 @@ Configuration lives in `liebe-config.json` at the project root:
    - if it returns `200` before `timeout`, the upstream is marked **healthy**;
    - otherwise it is marked **unhealthy** and detailed in the logs.
 3. For each incoming request on `:8080`, Liebe picks a **healthy** upstream according to the strategy and proxies the request to it.
+
+### Prerequisites
+
+- All URLs listed under `upstreams` must point to running API instances.
+- Each upstream must expose the health endpoint defined in `health_check.path` (e.g. `/health`) that returns HTTP `200` when the instance is available.
