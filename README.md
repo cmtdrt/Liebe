@@ -1,6 +1,8 @@
 ### Liebe
 
-Liebe is a lightweight, configurable load balancer that distributes traffic across multiple identical API instances, with built‑in health checks and simple routing strategies.
+Liebe is a lightweight, configurable load balancer written in 
+![Go](https://img.shields.io/badge/-%2300ADD8.svg?logo=go&logoColor=white)
+that distributes traffic across multiple identical API instances, with built‑in health checks and simple routing strategies.
 
 ### Configuration
 
