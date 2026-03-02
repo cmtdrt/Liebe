@@ -1,0 +1,13 @@
+{
+  "health_check": {
+    "path": "/health",
+    "interval": "5",
+    "timeout": "2"
+  },
+  "strategy": "round_robin",
+  "upstreams": [
+    "http://localhost:8081",
+    "http://localhost:8082",
+    "http://localhost:8083"
+  ]
+}
