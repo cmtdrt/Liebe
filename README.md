@@ -45,3 +45,6 @@ Configuration lives in `liebe-config.json` at the project root:
 
 - All URLs listed under `upstreams` must point to running API instances.
 - Each upstream must expose the health endpoint defined in `health_check.path` (e.g. `/health`) that returns HTTP `200` when the instance is available.
+
+### Example (usins round robin)
+<img width="718" height="103" alt="image" src="https://github.com/user-attachments/assets/d4b4df34-ed8d-40c4-8ac1-4bf62f501738" />
