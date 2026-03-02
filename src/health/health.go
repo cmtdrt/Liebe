@@ -30,12 +30,14 @@ func runHealthCheck(potentialUpstreams []string, updateHealthy func([]string), p
 	newHealthy := make([]string, 0, len(potentialUpstreams))
 	unhealthyLogs := make([]string, 0)
 
-	for _, upstream := range potentialUpstreams {
+	for i, upstream := range potentialUpstreams {
 		ok, cause := checkHealth(client, upstream, path)
 		if ok {
 			newHealthy = append(newHealthy, upstream)
 		} else if cause != "" {
-			unhealthyLogs = append(unhealthyLogs, fmt.Sprintf("- %s -> cause: %s", upstream, cause))
+			color := utils.ColorForIndex(i)
+			coloredUpstream := utils.Colorize(upstream, color)
+			unhealthyLogs = append(unhealthyLogs, fmt.Sprintf("- %s -> cause: %s", coloredUpstream, cause))
 		}
 	}
 

@@ -3,6 +3,7 @@ package server
 import (
 	"liebe/src/config"
 	"liebe/src/strategy"
+	"liebe/src/utils"
 	"log"
 	"net/http"
 	"net/http/httputil"
@@ -61,7 +62,22 @@ func (lb *LoadBalancer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Printf("Incoming %s request on %s routed to upstream %s", r.Method, r.URL.Path, targetURL.String())
+	// Colorize upstream in logs based on its index in the configured list.
+	idx := 0
+	for i, u := range lb.potentialUpstreams {
+		if u == target {
+			idx = i
+			break
+		}
+	}
+	upstreamColor := utils.ColorForIndex(idx)
+	coloredUpstream := utils.Colorize(targetURL.String(), upstreamColor)
+
+	// Colorize HTTP method
+	methodColor := utils.ColorForMethod(r.Method)
+	coloredMethod := utils.Colorize(r.Method, methodColor)
+
+	log.Printf("Incoming %s request on %s routed to upstream %s", coloredMethod, r.URL.Path, coloredUpstream)
 
 	proxy := httputil.NewSingleHostReverseProxy(targetURL)
 	proxy.ErrorHandler = func(w http.ResponseWriter, r *http.Request, err error) {
