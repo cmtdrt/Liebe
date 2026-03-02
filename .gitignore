@@ -1,0 +1,6 @@
+.env
+**.txt
+target/
+.DS_Store
+.idea/
+.vscode/
