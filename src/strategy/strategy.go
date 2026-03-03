@@ -1,6 +1,9 @@
 package strategy
 
-import "liebe/src/config"
+import (
+	"liebe/src/config"
+	"time"
+)
 
 // Chooses the next healthy upstream to use.
 type StrategyChooser interface {
@@ -14,6 +17,12 @@ type ConnectionAwareStrategy interface {
 	OnRequestEnd(upstream string)
 }
 
+// Optionally implemented by strategies that adjust routing based on per-upstream response times.
+type ResponseTimeAwareStrategy interface {
+	StrategyChooser
+	OnRequestComplete(upstream string, duration time.Duration)
+}
+
 // Builds the appropriate strategy implementation from configuration.
 func NewStrategyChooser(s config.Strategy) StrategyChooser {
 	switch s {
@@ -23,6 +32,8 @@ func NewStrategyChooser(s config.Strategy) StrategyChooser {
 		return newRandomStrategy()
 	case config.StrategyLeastConnections:
 		return newLeastConnectionsStrategy()
+	case config.StrategyLeastResponseTime:
+		return newLeastResponseTimeStrategy()
 	default:
 		// Should not happen because config.LoadConfig already validated the value.
 		return &roundRobinStrategy{}

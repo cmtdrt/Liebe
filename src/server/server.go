@@ -9,6 +9,7 @@ import (
 	"net/http/httputil"
 	"net/url"
 	"sync"
+	"time"
 )
 
 type LoadBalancer struct {
@@ -83,6 +84,7 @@ func (lb *LoadBalancer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	methodColor := utils.ColorForMethod(r.Method)
 	coloredMethod := utils.Colorize(r.Method, methodColor)
 
+	start := time.Now()
 	log.Printf("Incoming %s request on %s routed to upstream %s", coloredMethod, r.URL.Path, coloredUpstream)
 
 	proxy := httputil.NewSingleHostReverseProxy(targetURL)
@@ -92,4 +94,9 @@ func (lb *LoadBalancer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	proxy.ServeHTTP(w, r)
+
+	// Track response time if the current strategy is response-time-aware.
+	if s, ok := lb.strategy.(strategy.ResponseTimeAwareStrategy); ok {
+		s.OnRequestComplete(target, time.Since(start))
+	}
 }

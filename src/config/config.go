@@ -10,9 +10,10 @@ import (
 type Strategy string
 
 const (
-	StrategyRoundRobin      Strategy = "round_robin"
-	StrategyRandom          Strategy = "random"
+	StrategyRoundRobin       Strategy = "round_robin"
+	StrategyRandom           Strategy = "random"
 	StrategyLeastConnections Strategy = "least_connections"
+	StrategyLeastResponseTime Strategy = "least_response_time"
 )
 
 type Config struct {
@@ -50,9 +51,9 @@ func LoadConfig(path string) (*Config, error) {
 
 func validateStrategy(s Strategy) error {
 	switch s {
-	case StrategyRoundRobin, StrategyRandom, StrategyLeastConnections:
+	case StrategyRoundRobin, StrategyRandom, StrategyLeastConnections, StrategyLeastResponseTime:
 		return nil
 	default:
-		return fmt.Errorf("stratégie inconnue %q, valeurs possibles: %q, %q, %q", s, StrategyRoundRobin, StrategyRandom, StrategyLeastConnections)
+		return fmt.Errorf("stratégie inconnue %q, valeurs possibles: %q, %q, %q, %q", s, StrategyRoundRobin, StrategyRandom, StrategyLeastConnections, StrategyLeastResponseTime)
 	}
 }
