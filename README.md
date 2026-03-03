@@ -31,6 +31,7 @@ Configuration lives in `liebe-config.json` at the project root:
   - `"round_robin"`: cycles through healthy upstreams in order, one request at a time.
   - `"random"`: picks a healthy upstream at random for each request.
   - `"least_connections"`: always routes to the healthy upstream with the fewest in‑flight requests.
+  - `"least_response_time"`: prefers healthy upstreams with the lowest average response time.
 - **upstreams**: list of API instances that will receive traffic.
 
 ### How it works
