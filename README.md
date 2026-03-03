@@ -30,7 +30,7 @@ Configuration lives in `liebe-config.json` at the project root:
 - **strategy**: load‑balancing strategy (currently available):
   - `"round_robin"`: cycles through healthy upstreams in order, one request at a time.
   - `"random"`: picks a healthy upstream at random for each request.
-  - _more strategies to come…_
+  - `"least_connections"`: always routes to the healthy upstream with the fewest in‑flight requests.
 - **upstreams**: list of API instances that will receive traffic.
 
 ### How it works
