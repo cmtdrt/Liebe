@@ -10,6 +10,12 @@ type roundRobinStrategy struct {
 	index int
 }
 
+func newRoundRobinStrategy() *roundRobinStrategy {
+	return &roundRobinStrategy{
+		index: 0,
+	}
+}
+
 func (s *roundRobinStrategy) Next(healthy []string) (string, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -21,4 +27,3 @@ func (s *roundRobinStrategy) Next(healthy []string) (string, error) {
 	s.index = (s.index + 1) % len(healthy)
 	return u, nil
 }
-

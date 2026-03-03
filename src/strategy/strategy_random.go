@@ -22,4 +22,3 @@ func (s *randomStrategy) Next(healthy []string) (string, error) {
 	}
 	return healthy[s.rnd.Intn(len(healthy))], nil
 }
-

@@ -62,6 +62,12 @@ func (lb *LoadBalancer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Track active connections if the current strategy is connection-aware
+	if s, ok := lb.strategy.(strategy.ConnectionAwareStrategy); ok {
+		s.OnRequestStart(target)
+		defer s.OnRequestEnd(target)
+	}
+
 	// Colorize upstream in logs based on its index in the configured list.
 	idx := 0
 	for i, u := range lb.potentialUpstreams {
